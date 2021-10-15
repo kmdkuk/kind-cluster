@@ -17,11 +17,6 @@ start: $(KIND)
 get-argocd-password:
 	@$(KUBECTL) -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
 
-.PHONY: arogocd-port
-argocd-port: get-argocd-password
-	@echo
-	$(KUBECTL) port-forward svc/argocd-server -n argocd 8080:443
-
 .PHONY: setup
 setup: $(KUBECTL) $(KUSTOMIZE) $(ARGOCD)
 	@echo "setup argocd"
@@ -30,7 +25,7 @@ setup: $(KUBECTL) $(KUSTOMIZE) $(ARGOCD)
 	$(KUBECTL) wait -n argocd deploy/argocd-server --for condition=available --timeout 3m
 	$(ARGOCD) login localhost:30080 --insecure --username admin --password $(shell make get-argocd-password)
 	$(ARGOCD) app create argocd-config --upsert --repo https://github.com/kmdkuk/kind-cluster.git --path argocd-config/base \
-				-dest-namespace argocd --dest-server https://kubernetes.default.svc --sync-policy none --revision main
+				--dest-namespace argocd --dest-server https://kubernetes.default.svc --sync-policy none --revision main
 
 
 .PHONY: stop

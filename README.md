@@ -6,8 +6,7 @@ kmdkuk-cluster
 ```
 make start
 make setup
-# If you want to use argocd's WebUI
-make argocd-port
+# If you want to use argocd's WebUI, access to localhost:30080
 # Exit the cluster
 make stop
 ```
