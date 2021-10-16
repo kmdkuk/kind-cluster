@@ -8,6 +8,7 @@ KUSTOMIZE := $(shell pwd)/bin/kustomize
 ARGOCD := $(shell pwd)/bin/argocd
 
 ARGOCD_VERSION = 2.1.3
+VM_OPERATOR_VERSION = 0.19.1
 
 .PHONY: start
 start: $(KIND)
@@ -39,6 +40,14 @@ clean:
 .PHONY: update-argocd
 update-argocd:
 	curl -sfL -o argocd/base/upstream/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v${ARGOCD_VERSION}/manifests/install.yaml
+
+.PHONY: update-victoriametrics-operator
+update-victoriametrics-operator:
+	rm -rf /tmp/operator
+	cd /tmp; git clone --depth 1 -b v${VM_OPERATOR_VERSION} https://github.com/VictoriaMetrics/operator
+	rm -rf monitoring/base/victoriametrics/upstream/*
+	cp -r /tmp/operator/config/* monitoring/base/victoriametrics/upstream/
+	rm -rf /tmp/operator
 
 $(KIND):
 	mkdir -p bin
