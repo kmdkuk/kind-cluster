@@ -7,6 +7,8 @@ resources:
   - operator.yaml
   - vmagent.yaml
   - vmsingle.yaml
+  - rules/argocd-scrape.yaml
+  - rules/kubernetes-scrape.yaml
 
 images:
 - name: victoriametrics/operator
