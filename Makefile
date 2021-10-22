@@ -8,6 +8,7 @@ KUSTOMIZE := $(shell pwd)/bin/kustomize
 ARGOCD := $(shell pwd)/bin/argocd
 
 ARGOCD_VERSION = 2.1.3
+GRAFANA_OPERATOR_VERSION = 4.0.1
 VM_OPERATOR_VERSION = 0.19.1
 
 .PHONY: start
@@ -24,6 +25,7 @@ setup: $(KUBECTL) $(KUSTOMIZE) $(ARGOCD)
 	-@$(KUBECTL) create namespace argocd
 	$(KUSTOMIZE) build argocd/base/ | $(KUBECTL) apply -n argocd -f -
 	$(KUBECTL) wait -n argocd deploy/argocd-server --for condition=available --timeout 3m
+	sleep 10
 	$(ARGOCD) login localhost:30080 --insecure --username admin --password $(shell make get-argocd-password)
 	$(ARGOCD) app create argocd-config --upsert --repo https://github.com/kmdkuk/kind-cluster.git --path argocd-config/base \
 				--dest-namespace argocd --dest-server https://kubernetes.default.svc --sync-policy none --revision main
@@ -40,6 +42,15 @@ clean:
 .PHONY: update-argocd
 update-argocd:
 	curl -sfL -o argocd/base/upstream/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v${ARGOCD_VERSION}/manifests/install.yaml
+
+.PHONY: update-grafana-operator
+update-grafana-operator:
+	rm -rf /tmp/grafana-operator
+	cd /tmp; git clone --depth 1 -b v${GRAFANA_OPERATOR_VERSION} https://github.com/grafana-operator/grafana-operator.git
+	rm -rf monitoring/base/grafana-operator/upstream/*
+	cp -r /tmp/grafana-operator/config/* monitoring/base/grafana-operator/upstream/
+	cp /tmp/grafana-operator/deploy/operator.yaml monitoring/base/grafana-operator/upstream/
+	rm -rf /tmp/grafana-operator
 
 .PHONY: update-victoriametrics-operator
 update-victoriametrics-operator:

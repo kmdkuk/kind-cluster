@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: monitoring
+  name: victoriametrics-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    control-plane: victoriametrics-operator
+  name: victoriametrics-operator
+  namespace: monitoring
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      control-plane: victoriametrics-operator
+  template:
+    metadata:
+      labels:
+        control-plane: victoriametrics-operator
+    spec:
+      containers:
+      - args:
+        - --enable-leader-election
+        env:
+        - name: WATCH_NAMESPACE
+          value: ""
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: victoriametrics-operator
+        image: victoriametrics/operator:v0.19.1
+        name: manager
+        ports:
+        - name: http
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 80m
+            memory: 120Mi
+      serviceAccountName: victoriametrics-operator
