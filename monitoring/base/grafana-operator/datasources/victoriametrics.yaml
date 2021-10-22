@@ -7,11 +7,4 @@ spec:
   datasources:
     - name: vmsingle
       type: prometheus
-      access: proxy
       url: http://vmsingle-vmsingle.monitoring-system.svc:8429
-      version: 1
-      isDefault: false
-      editable: false
-      jsonData:
-        tlsSkipVerify: true
-        timeInterval: "30s"

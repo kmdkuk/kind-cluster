@@ -19,6 +19,12 @@ start: $(KIND)
 get-argocd-password:
 	@$(KUBECTL) -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
 
+.PHONY: get-grafana-password
+get-grafana-password:
+	@$(KUBECTL) -n monitoring-system get secret grafana-admin-credentials -o jsonpath='{.data.GF_SECURITY_ADMIN_USER}' | base64 -d
+	@echo
+	@$(KUBECTL) -n monitoring-system get secret grafana-admin-credentials -o jsonpath='{.data.GF_SECURITY_ADMIN_PASSWORD}' | base64 -d
+
 .PHONY: setup
 setup: $(KUBECTL) $(KUSTOMIZE) $(ARGOCD)
 	@echo "setup argocd"
