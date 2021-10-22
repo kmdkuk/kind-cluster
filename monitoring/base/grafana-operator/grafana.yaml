@@ -3,13 +3,6 @@ kind: Grafana
 metadata:
   name: grafana
 spec:
-  service:
-    type: NodePort
-    ports:
-      - name: http
-        port: 80
-        protocol: TCP
-        nodePort: 30081
   config:
     log:
       level: "warn"
