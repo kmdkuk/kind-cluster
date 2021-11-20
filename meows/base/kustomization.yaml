@@ -6,5 +6,6 @@ resources:
   - ./upstream/agent
   - ./upstream/runnerpool/runnerpool_editor_role.yaml
   - ./upstream/runnerpool/runnerpool_viewer_role.yaml
+  - runnerpool.yaml
 patchesStrategicMerge:
   - ./deployment.yaml

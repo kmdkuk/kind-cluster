@@ -1,0 +1,11 @@
+apiVersion: meows.cybozu.com/v1alpha1
+kind: RunnerPool
+metadata:
+  name: kmdkuk-runner
+  namespace: meows-runner
+spec:
+  replicas: 1
+  slackAgent:
+    serviceName: slack-agent.meows.svc
+  template:
+    image: quay.io/cybozu/meows-runner:0.4.2
