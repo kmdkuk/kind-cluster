@@ -45,7 +45,7 @@ spec:
   otherConfigMapName: other-props
   serviceTemplate:
     spec:
-      type: NodePort
+      type: LoadBalancer
   volumeClaimTemplates:
   - metadata:
       name: minecraft-data

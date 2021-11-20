@@ -13,6 +13,7 @@ VM_OPERATOR_VERSION = 0.19.1
 CERT_MANAGER_VERSION = 1.6.0
 MEOWS_VERSION = 0.4.2
 MCING_VERSION = 0.2.0
+METALLB_VERSION = 0.11.0
 
 .PHONY: start
 start: $(KIND)
@@ -68,6 +69,14 @@ update-meows:
 	rm -rf meows/base/upstream/*
 	cp -r /tmp/meows/config/* meows/base/upstream
 	rm -rf /tmp/meows
+
+.PHONY: update-metallb
+update-metallb:
+	rm -rf /tmp/metallb
+	cd /tmp; git clone --depth 1 -b v${METALLB_VERSION} https://github.com/metallb/metallb
+	rm -f metallb/base/upstream/*
+	cp /tmp/metallb/manifests/*.yaml metallb/base/upstream
+	rm -rf /tmp/metallb
 
 .PHONY: update-grafana-operator
 update-grafana-operator:
