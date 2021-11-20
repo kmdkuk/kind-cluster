@@ -11,6 +11,7 @@ ARGOCD_VERSION = 2.1.3
 GRAFANA_OPERATOR_VERSION = 4.0.1
 VM_OPERATOR_VERSION = 0.19.1
 CERT_MANAGER_VERSION = 1.6.0
+MEOWS_VERSION = 0.4.2
 
 .PHONY: start
 start: $(KIND)
@@ -54,6 +55,14 @@ update-cert-manager:
 .PHONY: update-argocd
 update-argocd:
 	curl -sfL -o argocd/base/upstream/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v${ARGOCD_VERSION}/manifests/install.yaml
+
+.PHONY: update-meows
+update-meows:
+	rm -rf /tmp/meows
+	cd /tmp; git clone --depth 1 -b "v${MEOWS_VERSION}" https://github.com/cybozu-go/meows.git
+	rm -rf meows/base/upstream/*
+	cp -r /tmp/meows/config/* meows/base/upstream
+	rm -rf /tmp/meows
 
 .PHONY: update-grafana-operator
 update-grafana-operator:
