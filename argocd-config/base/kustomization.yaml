@@ -6,3 +6,4 @@ resources:
 - cert-manager.yaml
 - moco.yaml
 - monitoring.yaml
+- namespaces.yaml
