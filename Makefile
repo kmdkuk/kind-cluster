@@ -12,6 +12,7 @@ GRAFANA_OPERATOR_VERSION = 4.0.1
 VM_OPERATOR_VERSION = 0.19.1
 CERT_MANAGER_VERSION = 1.6.0
 MEOWS_VERSION = 0.4.2
+MCING_VERSION = 0.2.0
 
 .PHONY: start
 start: $(KIND)
@@ -55,6 +56,10 @@ update-cert-manager:
 .PHONY: update-argocd
 update-argocd:
 	curl -sfL -o argocd/base/upstream/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v${ARGOCD_VERSION}/manifests/install.yaml
+
+.PHONY: update-mcing
+update-mcing:
+	curl -sfL -o mcing/base/upstream/install.yaml https://github.com/kmdkuk/MCing/releases/download/v${MCING_VERSION}/install.yaml
 
 .PHONY: update-meows
 update-meows:

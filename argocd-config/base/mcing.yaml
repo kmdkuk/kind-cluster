@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mcing
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kmdkuk/kind-cluster.git
+    targetRevision: main
+    path: mcing/base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mcing-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
