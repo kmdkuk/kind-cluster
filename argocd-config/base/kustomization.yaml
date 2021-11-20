@@ -4,6 +4,7 @@ resources:
 - argocd-config.yaml
 - argocd.yaml
 - cert-manager.yaml
+- ext-local-pv.yaml
 - mcing.yaml
 - meows.yaml
 - moco.yaml
