@@ -10,6 +10,7 @@ ARGOCD := $(shell pwd)/bin/argocd
 ARGOCD_VERSION = 2.1.3
 GRAFANA_OPERATOR_VERSION = 4.0.1
 VM_OPERATOR_VERSION = 0.19.1
+CERT_MANAGER_VERSION = 1.6.0
 
 .PHONY: start
 start: $(KIND)
@@ -44,6 +45,11 @@ stop: $(KIND)
 .PHONY: clean
 clean:
 	rm -rf bin
+
+.PHONY: update-cert-manager
+update-cert-manager:
+	curl -sLf -o cert-manager/base/upstream/cert-manager.yaml \
+		https://github.com/jetstack/cert-manager/releases/download/v${CERT_MANAGER_VERSION}/cert-manager.yaml
 
 .PHONY: update-argocd
 update-argocd:
