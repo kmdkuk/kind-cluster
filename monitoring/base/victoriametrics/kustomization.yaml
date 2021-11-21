@@ -9,6 +9,7 @@ resources:
   - vmsingle.yaml
   - rules/argocd-scrape.yaml
   - rules/cert-manager-scrape.yaml
+  - rules/kube-state-metrics-scrape.yaml
   - rules/kubernetes-scrape.yaml
   - rules/meows-scrape.yaml
   - rules/metallb-scrape.yaml

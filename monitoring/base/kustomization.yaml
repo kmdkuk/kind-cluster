@@ -3,4 +3,9 @@ kind: Kustomization
 namespace: monitoring-system
 resources:
 - grafana-operator
+- kube-state-metrics/deployment.yaml
+- kube-state-metrics/cluster-role.yaml
+- kube-state-metrics/cluster-role-binding.yaml
+- kube-state-metrics/service.yaml
+- kube-state-metrics/service-account.yaml
 - victoriametrics

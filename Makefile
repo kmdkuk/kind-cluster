@@ -14,6 +14,7 @@ CERT_MANAGER_VERSION = 1.6.0
 MEOWS_VERSION = 0.4.2
 MCING_VERSION = 0.2.0
 METALLB_VERSION = 0.11.0
+KUBE_STATE_METRICS_VERSION = 2.2.4
 
 .PHONY: start
 start: $(KIND)
@@ -39,7 +40,6 @@ setup: $(KUBECTL) $(KUSTOMIZE) $(ARGOCD)
 	$(ARGOCD) login localhost:30080 --insecure --username admin --password $(shell make get-argocd-password)
 	$(ARGOCD) app create argocd-config --upsert --repo https://github.com/kmdkuk/kind-cluster.git --path argocd-config/base \
 				--dest-namespace argocd --dest-server https://kubernetes.default.svc --sync-policy none --revision main
-
 
 .PHONY: stop
 stop: $(KIND)
@@ -86,6 +86,14 @@ update-grafana-operator:
 	cp -r /tmp/grafana-operator/config/* monitoring/base/grafana-operator/upstream/
 	cp /tmp/grafana-operator/deploy/operator.yaml monitoring/base/grafana-operator/upstream/
 	rm -rf /tmp/grafana-operator
+
+.PHONY: update-kube-state-metrics
+update-kube-state-metrics:
+	rm -rf /tmp/kube-state-metrics
+	cd /tmp; git clone --depth 1 -b v${KUBE_STATE_METRICS_VERSION} https://github.com/kubernetes/kube-state-metrics
+	rm -f monitoring/base/kube-state-metrics/*
+	cp /tmp/kube-state-metrics/examples/standard/* monitoring/base/kube-state-metrics
+	rm -rf /tmp/kube-state-metrics
 
 .PHONY: update-victoriametrics-operator
 update-victoriametrics-operator:
