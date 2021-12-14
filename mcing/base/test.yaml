@@ -51,9 +51,6 @@ spec:
   serverPropertiesConfigMapName: test-server-props
   otherConfigMapName: test-other-props
   serviceTemplate:
-    metadata:
-      annotations:
-        "mc-router.itzg.me/externalServerName": "test.minecraft.kmdkuk.com"
     spec:
       type: LoadBalancer
   volumeClaimTemplates:

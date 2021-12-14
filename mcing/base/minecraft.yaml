@@ -44,9 +44,6 @@ spec:
   serverPropertiesConfigMapName: mcing-server-props
   otherConfigMapName: other-props
   serviceTemplate:
-    metadata:
-      annotations:
-        "mc-router.itzg.me/externalServerName": "kmdkuk-minecraft.minecraft.kmdkuk.com"
     spec:
       type: LoadBalancer
   volumeClaimTemplates:
